@@ -8,10 +8,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\fontawesome.ttf" />
+    <None Remove="Assets\Fonts\Square.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Fonts\fontawesome.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Fonts\Square.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolKit.MVVM" Version="8.1.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="170.13.0" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
@@ -20,6 +40,12 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FontAwesome.WPF">
+      <HintPath>..\..\..\..\.nuget\packages\fontawesome.wpf\4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

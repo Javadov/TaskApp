@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TaskApp.MVVM.Views"
              xmlns:viewmodels="clr-namespace:TaskApp.MVVM.ViewModels"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              d:DataContext="{d:DesignInstance Type=viewmodels:AddIssueViewModel}"
              
              mc:Ignorable="d" 
@@ -26,13 +27,19 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Command="{Binding HomeCommand}"  Content="Home" Width="50" Height="50" Margin="0 5 5 5" />
-            <Button Command="{Binding ToIssuesCommand}" Content="List" Width="50" Height="50" Margin="0 5 5 5"/>
-            <Button Command="{Binding ToIssuesCommand}" Content="Search" Width="50" Height="50" Margin="0 5 5 5"/>
+            <Button Command="{Binding HomeCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
+                <fa:ImageAwesome Icon="Home" Margin='10'/>
+            </Button>
+            <Button Command="{Binding ToIssuesCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite"  Width="50" Height="50" Margin="0 5 5 5">
+                <fa:ImageAwesome Icon="List" Margin='10'/>
+            </Button>
+            <Button Command="{Binding ToIssuesCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
+                <fa:ImageAwesome Icon="Search" Margin='10'/>
+            </Button>
         </StackPanel>
 
-        <Border BorderBrush="Black" BorderThickness="1" Background="Wheat" CornerRadius="20 0 0 20" Width="250" Height="50" HorizontalAlignment="Right" Margin="5 5 0 5">
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 9 20 0" />
+        <Border BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" CornerRadius="20 0 0 20" Width="250" Height="40" HorizontalAlignment="Right" Margin="5 5 0 5">
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 3 20 0" />
         </Border>
 
         <xctk:WatermarkTextBox Watermark="Förnamn" Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBox"  Text="{Binding Firstname}" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10"/>

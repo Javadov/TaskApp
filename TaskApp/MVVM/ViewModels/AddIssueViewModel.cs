@@ -43,6 +43,7 @@ namespace TaskApp.MVVM.ViewModels
                 Topic = Topic,
                 Description = Description,
                 Status = 1,
+                DateTime = System.DateTime.Now,
                 ContactId = await database.IssuesAsync(new ContactEntity
                 {
                     FirstName = Firstname,

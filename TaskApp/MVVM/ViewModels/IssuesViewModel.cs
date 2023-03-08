@@ -26,25 +26,7 @@ namespace TaskApp.MVVM.ViewModels
 
 
         [ObservableProperty]
-        private ObservableCollection<Issue> issues = TaskManager.Issues();
-
-
-        public async Task LoadDataAsync()
-        {
-            var issues = await TaskManager.GetAllAsync();
-
-            if (issues.Any())
-            {
-                foreach (var issue in issues) 
-                { 
-                    Console.WriteLine(issue.Topic);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Inga kunder finns i databasen");
-            }
-        }
+        private ObservableCollection<Issue> issues = DataService.Issues;
 
         [ObservableProperty]
         private Issue selectedIssue = null!;

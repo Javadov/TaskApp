@@ -7,6 +7,7 @@
              xmlns:viewmodels="clr-namespace:TaskApp.MVVM.ViewModels"
              xmlns:simpleXamlContent="clr-namespace:TaskApp.Services"
              xmlns:views="clr-namespace:TaskApp.MVVM.Views"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              d:DataContext="{d:DesignInstance Type=viewmodels:IssuesViewModel}"
              
              mc:Ignorable="d" 
@@ -26,13 +27,19 @@
 
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Command="{Binding HomeCommand}"  Content="Home" Width="50" Height="50" Margin="0 5 5 5" />
-            <Button Command="{Binding ToAddIssueCommand}" Content="Add" Width="50" Height="50" Margin="0 5 5 5"/>
-            <Button Command="{Binding ToIssuesCommand}" Content="Search" Width="50" Height="50" Margin="0 5 5 5"/>
+            <Button Command="{Binding HomeCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
+                <fa:ImageAwesome Icon="Home" Margin='10'/>
+            </Button>
+            <Button Command="{Binding ToAddIssueCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5">
+                <fa:ImageAwesome Icon="Pencil" Margin='10'/>
+            </Button>
+            <Button Command="{Binding ToIssuesCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5">
+                <fa:ImageAwesome Icon="Search" Margin='10'/>
+            </Button>
         </StackPanel>
 
-        <Border BorderBrush="Black" BorderThickness="1" Background="Wheat" CornerRadius="20 0 0 20" Width="250" Height="50" HorizontalAlignment="Right" Margin="5 5 0 5">
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 9 20 0" />
+        <Border BorderBrush="Black" BorderThickness="1" Background="GhostWhite" CornerRadius="20 0 0 20" Width="250" Height="40" HorizontalAlignment="Right" Margin="5 5 0 5">
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 3 20 0" />
         </Border>
         
         <Grid Grid.Row="1" Grid.Column="1" Width="Auto">
@@ -99,11 +106,12 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
                         </Grid.RowDefinitions>
-                        <Border  BorderBrush="#ABADB3" BorderThickness="1" DockPanel.Dock="Top">
-                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Button Command="{Binding BackCommand}" Content="Tillbaka" Width="50" />
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <Button Command="{Binding BackCommand}" Style="{StaticResource navButton}" Background="Transparent"  BorderThickness="0" >
+                                <fa:ImageAwesome Icon="ArrowLeft" />                                
+                            </Button>
+                            <TextBlock Text="TILLBAKA" FontSize="10" VerticalAlignment="Center" FontWeight="Bold"/>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </Border>
