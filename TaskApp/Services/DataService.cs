@@ -45,15 +45,34 @@ namespace TaskApp.Services
             return issues;
         }
 
+        public async Task GetAll()
+        {
+            var result = await context.Issue.ToListAsync();
 
-//        public static ObservableCollection<Issue> issues { get; set; } = new ObservableCollection<Issue>();
-//
-//        public static ObservableCollection<Issue> Issues()
-//        {
-//            var items = new ObservableCollection<Issue>();
-//            foreach (var issue in issues)
-//                items.Add(new Issue { FirstName = issue.FirstName , LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment });
-//            return items;
-//        }
+            if (result != null)
+            {
+                ObservableCollection<Issue> issues = new ObservableCollection<Issue>();
+
+                foreach (var issue in result)
+                {
+                    Issue eReport = new Issue()
+                    { FirstName = issue.FirstName, LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment };
+                    issues.Add(eReport);
+                }
+
+                Issues = issues;
+            }
+        }
+
+
+        //        public static ObservableCollection<Issue> issues { get; set; } = new ObservableCollection<Issue>();
+        //
+        //        public static ObservableCollection<Issue> Issues()
+        //        {
+        //            var items = new ObservableCollection<Issue>();
+        //            foreach (var issue in issues)
+        //                items.Add(new Issue { FirstName = issue.FirstName , LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment });
+        //            return items;
+        //        }
     }
 }
