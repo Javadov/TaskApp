@@ -19,60 +19,99 @@ namespace TaskApp.Services
     {
         private static DataContext context = new DataContext();
 
+        #region Save Issue
         public async Task SaveIssueAsync(IssueEntity issueEntity)
         {
             context.Issues.Add(issueEntity);
             await context.SaveChangesAsync();
         }
+        #endregion
 
+        #region Check Contact
         public async Task<int> IssuesAsync(ContactEntity contactEntity)
         {
-            context.Contacts.Add(contactEntity);
-            await context.SaveChangesAsync();
-            return contactEntity.Id;
+            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Email == contactEntity.Email && x.PhoneNumber == contactEntity.PhoneNumber);
+
+            if (contact != null)
+                return contact.Id;
+            else
+                context.Contacts.Add(contactEntity);
+                await context.SaveChangesAsync();
+                return contactEntity.Id;
         }
+        #endregion
 
-        public static ObservableCollection<Issue> Issues { get; set; } = new ObservableCollection<Issue>();
-
+        #region All Issues
         public static async Task<IEnumerable<Issue>> GetAllAsync()
         {
 
             var issues = new List<Issue>();
 
-            foreach (var issue in await context.Issue.ToListAsync())
-                issues.Add(new Issue { FirstName = issue.FirstName, LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment });
+            foreach (var issue in await context.Issues.Include(c => c.Contact).ToListAsync())
+                issues.Add(new Issue 
+                {
+                    FirstName = issue.Contact.FirstName,
+                    LastName = issue.Contact.LastName, 
+                    Email = issue.Contact.Email, 
+                    PhoneNumber = issue.Contact.PhoneNumber, 
+                    Topic = issue.Topic, Description = issue.Description, 
+                    Status = issue.Status, 
+                    DateTime = issue.DateTime 
+                });
 
             return issues;
         }
+        #endregion
 
-        public async Task GetAll()
+        #region Get Specific Issues
+        public static async Task<IEnumerable<Issue>> GetAsync(string email)
         {
-            var result = await context.Issue.ToListAsync();
-
-            if (result != null)
-            {
-                ObservableCollection<Issue> issues = new ObservableCollection<Issue>();
-
-                foreach (var issue in result)
+            var selectedIssues = await context.Issues
+                .Include(x => x.Contact)
+                .Where(x => x.Contact.Email == email)
+                .Select(x => new Issue
                 {
-                    Issue eReport = new Issue()
-                    { FirstName = issue.FirstName, LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment };
-                    issues.Add(eReport);
-                }
+                    FirstName = x.Contact.FirstName,
+                    LastName = x.Contact.LastName,
+                    Email = x.Contact.Email,
+                    PhoneNumber = x.Contact.PhoneNumber,
+                    Topic = x.Topic,
+                    Description = x.Description,
+                    Status = x.Status,
+                    DateTime = x.DateTime
+                })
+                .ToListAsync();
 
-                Issues = issues;
-            }
+            return selectedIssues;
         }
+        #endregion
 
+        #region Update Issue
+        public static async Task UpdateAsync(Issue issue)
+        {
+            var selectedIssue = await context.Issues.FirstOrDefaultAsync(x => x.Topic == issue.Topic);
 
-        //        public static ObservableCollection<Issue> issues { get; set; } = new ObservableCollection<Issue>();
-        //
-        //        public static ObservableCollection<Issue> Issues()
-        //        {
-        //            var items = new ObservableCollection<Issue>();
-        //            foreach (var issue in issues)
-        //                items.Add(new Issue { FirstName = issue.FirstName , LastName = issue.LastName, Email = issue.Email, PhoneNumber = issue.PhoneNumber, Topic = issue.Topic, Description = issue.Description, Status = issue.Status, Comment = issue.Comment });
-        //            return items;
-        //        }
+            if (selectedIssue != null) 
+            { 
+                selectedIssue.Status = issue.Status;
+            }
+
+            context.Update(selectedIssue);
+            await context.SaveChangesAsync();
+        }
+        #endregion
+
+        #region Delete Issue
+        public static async Task DeleteAsync(Issue issue)
+        {
+            var selectedIssue = await context.Issues.FirstOrDefaultAsync(x => x.Topic == issue.Topic);
+            if (selectedIssue != null)
+            {
+                context.Remove(selectedIssue);
+            }
+
+            await context.SaveChangesAsync();
+        }
+        #endregion
     }
 }

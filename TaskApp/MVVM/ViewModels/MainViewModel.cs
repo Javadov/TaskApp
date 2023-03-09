@@ -24,6 +24,9 @@ namespace TaskApp.MVVM.ViewModels
         [RelayCommand]
         private void GoToIssues() => CurrentViewModel = new IssuesViewModel();
 
+        [RelayCommand]
+        private void GoToSearch() => CurrentViewModel = new SearchViewModel();
+
         public class ChangeViewModelMessage
         {
             public object NewViewModel { get; }

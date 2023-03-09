@@ -29,30 +29,6 @@ namespace TaskApp.Services
         {
             return issues;
         }
-
-
-
-        //public static async Task LoadIssuesAsync()
-        //{
-        //    var allIssues = await GetAllAsync();
-        //    issues = new ObservableCollection<Issue>(allIssues);
-        //}
-
-
-
-        //public static Task<IEnumerable<Issue>> GetAllAsync()
-        //{
-        //    var database = new DataService();
-        //    return database.GetAllIssuesAsync();
-        //}
-
-        //public static ObservableCollection<Issue> Issues()
-        //{
-        //    var items = new ObservableCollection<Issue>();
-        //    foreach (var issue in issues)
-        //        items.Add(issue);
-        //    return items;
-        //}
     }
 
     public class NullVisibilityConverter : IValueConverter

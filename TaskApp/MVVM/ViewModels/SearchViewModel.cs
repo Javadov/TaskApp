@@ -1,48 +1,34 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static TaskApp.MVVM.ViewModels.MainViewModel;
 using System.Windows;
-using System.Windows.Data;
-using TaskApp.MVVM.Entities;
 using TaskApp.MVVM.Models;
 using TaskApp.Services;
-using System.ComponentModel;
-using System.Windows.Input;
-using GalaSoft.MvvmLight.Messaging;
-using static TaskApp.MVVM.ViewModels.MainViewModel;
-using Newtonsoft.Json.Linq;
-using System.Windows.Controls.Primitives;
-using TaskApp.MVVM.Views;
-using System.Windows.Media;
-using System.Windows.Controls;
-using System.Runtime.Intrinsics.X86;
 
 namespace TaskApp.MVVM.ViewModels
 {
-    internal partial class IssuesViewModel : ObservableObject
+    internal partial class SearchViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string pageTitle = "Alla Ärenden";
+        private string pageTitle = "Sök Ärende";
 
 
         [ObservableProperty]
-        private ObservableCollection<Issue> issues;
+        private string email = string.Empty;
 
-        public IssuesViewModel()
-        {
-            LoadIssues();
-        }
+        [ObservableProperty]
+        private static ObservableCollection<Issue> issue;
 
-        public async Task LoadIssues()
+        public SearchViewModel()
         {
-            IEnumerable<Issue> issues = await DataService.GetAllAsync();
-            Issues = new ObservableCollection<Issue>(issues);
+            Issue = new ObservableCollection<Issue>();
         }
 
         public async Task LoadPage()
@@ -50,15 +36,44 @@ namespace TaskApp.MVVM.ViewModels
             new ObservableCollection<Issue>();
         }
 
+
+        #region Get Specific Issues
+        [RelayCommand]
+        public async Task Search()
+        {
+            var email = Email;
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                IEnumerable<Issue> issue = await DataService.GetAsync(email);
+
+                if (issue != null && issue.Any())
+                {
+                    Issue = new ObservableCollection<Issue>(issue);
+                }
+                else
+                {
+
+                    MessageBox.Show("Ingen kund med den angivna e-postadressen hittades");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ingen e-postadress angiven ");
+            }
+        }
+        #endregion
+
+
         [ObservableProperty]
         private Issue selectedIssue = null!;
 
         [RelayCommand]
-        public void Back() 
+        public void Back()
         {
-           Messenger.Default.Send(new ChangeViewModelMessage(new IssuesViewModel()));
+            Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
         }
-
+ 
         [RelayCommand]
         public void Home()
         {
@@ -78,12 +93,6 @@ namespace TaskApp.MVVM.ViewModels
         }
 
         [RelayCommand]
-        public void ToSearch()
-        {
-            Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
-        }
-
-        [RelayCommand]
         public async void Remove()
         {
             MessageBoxResult result = MessageBox.Show("Är du säker på att ta bort den?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -91,15 +100,15 @@ namespace TaskApp.MVVM.ViewModels
             var issue = SelectedIssue;
 
             if (result == MessageBoxResult.Yes)
-             {
+            {
                 await DataService.DeleteAsync(issue);
-             }
-            LoadIssues();
+            }
+            LoadPage();
         }
 
         #region Hide/Show Comments
         private bool _isCommentVisible;
- 
+
         public Visibility CommentVisibility
         {
             get => _isCommentVisible ? Visibility.Visible : Visibility.Collapsed;
@@ -116,7 +125,6 @@ namespace TaskApp.MVVM.ViewModels
         }
         #endregion
 
-
         [RelayCommand]
         public async void Select1()
         {
@@ -125,7 +133,7 @@ namespace TaskApp.MVVM.ViewModels
             issue.Status = 1;
 
             await DataService.UpdateAsync(issue);
-            LoadIssues();
+            LoadPage();
         }
 
         [RelayCommand]
@@ -136,7 +144,7 @@ namespace TaskApp.MVVM.ViewModels
             issue.Status = 2;
 
             await DataService.UpdateAsync(issue);
-            LoadIssues();
+            LoadPage();
         }
 
         [RelayCommand]
@@ -147,7 +155,7 @@ namespace TaskApp.MVVM.ViewModels
             issue.Status = 3;
 
             await DataService.UpdateAsync(issue);
-            LoadIssues();
+            LoadPage();
         }
     }
 }

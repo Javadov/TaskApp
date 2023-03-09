@@ -23,5 +23,11 @@ namespace TaskApp.MVVM.ViewModels
         {
             Messenger.Default.Send(new ChangeViewModelMessage(new IssuesViewModel()));
         }
+
+        [RelayCommand]
+        public void ToSearch()
+        {
+            Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
+        }
     }
 }

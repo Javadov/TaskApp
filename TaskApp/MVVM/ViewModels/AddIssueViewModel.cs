@@ -33,7 +33,6 @@ namespace TaskApp.MVVM.ViewModels
 
 
         [RelayCommand]
-
         private async void Add()
         {
             var database = new DataService();
@@ -77,6 +76,12 @@ namespace TaskApp.MVVM.ViewModels
         public void ToAddIssue()
         {
             Messenger.Default.Send(new ChangeViewModelMessage(new AddIssueViewModel()));
+        }
+
+        [RelayCommand]
+        public void ToSearch()
+        {
+            Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
         }
     }
 }

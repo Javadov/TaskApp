@@ -33,7 +33,7 @@
             <Button Command="{Binding ToIssuesCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite"  Width="50" Height="50" Margin="0 5 5 5">
                 <fa:ImageAwesome Icon="List" Margin='10'/>
             </Button>
-            <Button Command="{Binding ToIssuesCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
+            <Button Command="{Binding ToSearchCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
                 <fa:ImageAwesome Icon="Search" Margin='10'/>
             </Button>
         </StackPanel>

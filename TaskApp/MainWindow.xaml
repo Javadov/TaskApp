@@ -23,6 +23,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:IssuesViewModel }">
                     <views:IssuesView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:SearchViewModel }">
+                    <views:SearchView />
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

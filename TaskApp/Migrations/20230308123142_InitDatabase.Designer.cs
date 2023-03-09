@@ -12,7 +12,7 @@ using TaskApp.Contexts;
 namespace TaskApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230306101450_InitDatabase")]
+    [Migration("20230308123142_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
