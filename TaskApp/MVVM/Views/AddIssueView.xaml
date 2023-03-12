@@ -47,8 +47,15 @@
         <xctk:WatermarkTextBox Watermark="E-postadress" Grid.Row="3" Grid.Column="1" x:Name="EmailTextBox" Text="{Binding Email}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
         <xctk:WatermarkTextBox Watermark="Telefonnummer" Grid.Row="4" Grid.Column="1" x:Name="PhoneTextBox" Text="{Binding Phonenumber}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
         <xctk:WatermarkTextBox Watermark="Ämne" Grid.Row="5" Grid.Column="1" x:Name="Topic" Text="{Binding Topic}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
-        <xctk:WatermarkTextBox Watermark="Beskriva ärende" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="tbMultiLine" Height="120" Text="{Binding Description}" Margin="0 0 0 10"/>
-        <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddCommand}" Content="Skapa Ärende" Width="100" HorizontalAlignment="Right" Margin="0 10 50 10"/>
+        <xctk:WatermarkTextBox Watermark="Beskriva ärende" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="tbMultiLine" Height="120" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 10">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding AddCommand}" />
+            </TextBox.InputBindings>
+        </xctk:WatermarkTextBox>
+    
+        <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddCommand}" Style="{StaticResource navButton}" Background="WhiteSmoke" Width="120" Height="30" HorizontalAlignment="Right" Padding="5" >
+            <fa:ImageAwesome Icon="Send" Foreground="Goldenrod"/>
+        </Button>
     </Grid>
     
 </UserControl>

@@ -33,6 +33,9 @@ namespace TaskApp.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("IssueId")
                         .HasColumnType("int");
 
@@ -112,7 +115,7 @@ namespace TaskApp.Migrations
             modelBuilder.Entity("TaskApp.MVVM.Entities.CommentEntity", b =>
                 {
                     b.HasOne("TaskApp.MVVM.Entities.IssueEntity", "Issue")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -129,6 +132,11 @@ namespace TaskApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("TaskApp.MVVM.Entities.IssueEntity", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

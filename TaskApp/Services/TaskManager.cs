@@ -7,18 +7,13 @@ using System.Windows.Data;
 using System.Windows;
 using TaskApp.MVVM.Entities;
 using TaskApp.MVVM.Models;
+using System.Windows.Controls;
 
 namespace TaskApp.Services
 {
     internal class TaskManager
     {
-        private static ObservableCollection<Issue> issues = new ObservableCollection<Issue>()
-        {
-            new Issue(){ FirstName = "Test1", LastName = "Testname1", Email = "Test1@mail.com", PhoneNumber = "123", Topic = "TopicTest1", Description = "Det är Test1", Status = 1 },
-            new Issue(){ FirstName = "Test2", LastName = "Testname2", Email = "Test2@mail.com", PhoneNumber = "456", Topic = "TopicTest2", Description = "Det är Test2", Status = 2, Comment = "Det är Comment2" },
-            new Issue(){ FirstName = "Test3", LastName = "Testname3", Email = "Test3@mail.com", PhoneNumber = "789", Topic = "TopicTest3", Description = "Det är Test3", Status = 3 },
-            new Issue(){ FirstName = "Test4", LastName = "Testname4", Email = "Test4@mail.com", PhoneNumber = "000", Topic = "TopicTest4", Description = "Det är Test4", Status = 2, Comment = "Det är Comment4" }
-        };
+        private static ObservableCollection<Issue> issues = new ObservableCollection<Issue>();
 
         public static void Remove(Issue issue)
         {
@@ -87,5 +82,52 @@ namespace TaskApp.Services
             throw new NotImplementedException();
         }
     }
+
+    public class CountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int count)
+            {
+                return count == 0 ? Visibility.Collapsed : Visibility.Visible;
+            }
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ListViewItemToMarginConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var selectedItem = value as ListViewItem;
+            if (selectedItem == null)
+            {
+                return new Thickness(0);
+            }
+            var listView = ItemsControl.ItemsControlFromItemContainer(selectedItem) as ListView;
+            if (listView == null)
+            {
+                return new Thickness(0);
+            }
+            var index = listView.ItemContainerGenerator.IndexFromContainer(selectedItem);
+            if (index < 0)
+            {
+                return new Thickness(0);
+            }
+            var topMargin = (index == 0) ? selectedItem.ActualHeight : 0;
+            return new Thickness(0, topMargin, 0, 0);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }

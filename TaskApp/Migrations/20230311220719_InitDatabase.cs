@@ -57,6 +57,7 @@ namespace TaskApp.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IssueId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

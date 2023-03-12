@@ -35,7 +35,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="navBtn" CornerRadius="50" Margin="1" Padding="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="WhiteSmoke">
+                    <Border x:Name="navBtn" CornerRadius="50" Margin="1" Padding="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="LightGoldenrodYellow">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>

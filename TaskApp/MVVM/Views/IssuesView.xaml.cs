@@ -33,6 +33,7 @@ namespace TaskApp.MVVM.Views
         {
             popup.IsOpen = true;
         }
+
         private void Popup_LostFocus(object sender, RoutedEventArgs e)
         {
             if (popup.IsOpen && !IsOptionSelected())
@@ -50,6 +51,16 @@ namespace TaskApp.MVVM.Views
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             popup.IsOpen = false;
+        }
+
+        private void CommentButton_Click(object sender, RoutedEventArgs e)
+        {
+            commentpopup.IsOpen = true;
+        }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e)
+        {
+            commentpopup.IsOpen = false;
         }
     }
 }

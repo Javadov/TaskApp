@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskApp.MVVM.Views"
              xmlns:viewmodels="clr-namespace:TaskApp.MVVM.ViewModels"
-             xmlns:simpleXamlContent="clr-namespace:TaskApp.Services"
+             xmlns:simpleXamlContent="clr-namespace:TaskApp.Services"                         
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
              xmlns:views="clr-namespace:TaskApp.MVVM.Views"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              d:DataContext="{d:DesignInstance Type=viewmodels:IssuesViewModel}"
@@ -15,6 +16,7 @@
     <UserControl.Resources>
         <simpleXamlContent:NullVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <simpleXamlContent:StatusToTextConverter x:Key="StatusToTextConverter"/>
+        <simpleXamlContent:ListViewItemToMarginConverter x:Key="ListViewItemToMarginConverter"/>
     </UserControl.Resources>
 
 
@@ -69,7 +71,7 @@
 
                         <TextBlock Grid.Column="0"  Text="{Binding Topic}" TextAlignment="Left" Margin="5 5 0 0"/>
                         <TextBlock Grid.Column="1" Text="{Binding DisplayName}" TextAlignment="Left" Margin="5 5 0 0"/>
-                        <TextBlock Grid.Column="2" Text="{Binding DateTime}" TextAlignment="Left" Margin="5 5 0 0"/>
+                        <TextBlock Grid.Column="2" Text="{Binding DateTime, StringFormat=yyyy/dd/MM HH:mm}" TextAlignment="Left" Margin="5 5 0 0"/>
                         <Border Grid.Column="3" BorderBrush="Black" BorderThickness="1" Background="White" CornerRadius="10" Width="80" Height="25">
                             <TextBlock Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}" TextAlignment="Center" FontSize="10" Margin="5 5 0 0" FontWeight="DemiBold">
                                 <TextBlock.Style>
@@ -154,16 +156,17 @@
                             <TextBlock Text="Ämne: " FontWeight="DemiBold"/>
                             <TextBlock Text="{Binding SelectedIssue.Topic}" />
                         </StackPanel>
-                        <StackPanel Grid.Row="6" Orientation="Horizontal"  Margin="5 15 80 -1" HorizontalAlignment="Left" >
-                            <Border Grid.Column="3" BorderBrush="DarkGoldenrod" Background="LightYellow" BorderThickness="1"  CornerRadius="0 10 0 0" Width="80" Height="25" >
-                                <TextBlock Text="Ärende" TextAlignment="Center" FontSize="10" Margin="0 5 0 0" FontWeight="DemiBold" />
-                            </Border>
-                        </StackPanel>
+                        <Border Grid.Row="6" Grid.Column="0" BorderBrush="DarkGoldenrod" Background="LightYellow" BorderThickness="1" Margin="5 15 80 -1" HorizontalAlignment="Left"  CornerRadius="0 10 0 0" Width="80" Height="25" >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Ärende ID:" TextAlignment="Center" FontSize="10" Margin="5 5 0 0" FontWeight="DemiBold" />
+                                <TextBlock Text="{Binding SelectedIssue.Id}" TextAlignment="Center" FontSize="10" Margin="5 5 0 0" FontWeight="DemiBold"/>
+                            </StackPanel>
+                        </Border>
 
 
                         <StackPanel Grid.Row="6" Orientation="Horizontal"  Margin="5 15 0 -1" HorizontalAlignment="Right" >
                             <Border BorderBrush="Black" BorderThickness="1" Background="White" CornerRadius="10 0 0 0" Width="80" Height="25">
-                                <Button Content="{Binding SelectedIssue.Status, Converter={StaticResource StatusToTextConverter}}" Click="Button_Click" BorderThickness="0" Background="Transparent" Template="{StaticResource NoMouseOverButtonTemplate}">
+                                <Button Content="{Binding SelectedIssue.Status, Converter={StaticResource StatusToTextConverter}}" Click="Button_Click" BorderThickness="0" Background="Transparent" Template="{StaticResource NoMouseOverButtonTemplate}" ToolTip="Tryck för att byta status">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Style.Triggers>
@@ -206,18 +209,18 @@
                             </StackPanel>
                         </Border>
                         <StackPanel Grid.Row="8" Orientation="Horizontal"  Margin="5" HorizontalAlignment="Right" >
-                            <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="10" Width="150" Height="20">
+                            <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="10" Width="130" Height="20">
                                 <StackPanel Grid.Row="7"  Orientation="Horizontal" >
                                     <TextBlock Text="Skapades:" Margin="8 3 0 0" FontSize="9" FontStyle="Italic" />
-                                    <TextBlock Text="{Binding SelectedIssue.DateTime}" TextAlignment="Center" Margin="10 3 0 0" FontWeight="DemiBold" FontSize="9" FontStyle="Italic"/>
+                                    <TextBlock Text="{Binding SelectedIssue.DateTime, StringFormat=yyyy/dd/MM HH:mm }" TextAlignment="Center" Margin="10 3 0 0" FontWeight="DemiBold" FontSize="9" FontStyle="Italic"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Row="9" Orientation="Horizontal" Margin="5 10 0 10" HorizontalAlignment="Right" >
-                            <Button Command="{Binding RemoveCommand}" Style="{StaticResource status}"  Margin="30 0 0 0">
+                            <Button Command="{Binding RemoveCommand}" Style="{StaticResource status}"  Margin="30 0 0 0" ToolTip="Ta bort ärenden">
                                 <fa:ImageAwesome Icon="Trash" Foreground="DarkRed" />
                             </Button>
-                            <Button Command="{Binding ToggleCommentCommand}" Style="{StaticResource status}"  Margin="30 0 15 0">
+                            <Button Command="{Binding ToggleCommentCommand}" Style="{StaticResource status}"  Margin="30 0 15 0" ToolTip="Visa alla kommentar">
                                 <fa:ImageAwesome Icon="Comments" Foreground="YellowGreen" />
                             </Button>
                         </StackPanel>
@@ -232,34 +235,90 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding CommentVisibility}" HorizontalAlignment="Right">
-                            <Border BorderBrush="Black" Background="LightBlue" BorderThickness="1" CornerRadius="10 10 0 10" Visibility="{Binding CommentVisibility}">
-                                <TextBlock Margin="5">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Text" Value="{Binding SelectedIssue.Comment}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding SelectedIssue.Comment}" Value="">
-                                                    <Setter Property="Text" Value="Det finns inga kommentar att visa"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding CommentVisibility}">
+                            <Border BorderBrush="Black"  Background="LightBlue" BorderThickness="1" CornerRadius="10 10 0 10">
+                                <TextBlock Text="Det finns inga kommentar att visa" Margin="5 10 5 5" Width="254" TextWrapping="Wrap" Height="auto" HorizontalAlignment="Left" >
                                 </TextBlock>
                             </Border>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="5 10 0 10" Visibility="{Binding CommentVisibility}" HorizontalAlignment="Right">
-                            <Button Background="Beige" Style="{StaticResource status}" Width="80" Margin="10 0 0 0">
+
+                        <ListView Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ItemsSource="{Binding SelectedIssue.Comments}" SelectionMode="Single" SelectedItem="{Binding SelectedComment}" Visibility="{Binding CommentVisibility}" Width="280" BorderThickness="0" BorderBrush="Transparent" HorizontalAlignment="Right">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="3 0 0 3"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Border BorderBrush="Black"  Background="LightBlue" BorderThickness="1" CornerRadius="10 10 0 10">
+                                            <TextBlock Margin="5 15 5 5" Width="244" TextWrapping="Wrap" Height="auto" HorizontalAlignment="Left">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Text" Value="{Binding _Comment}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding _Comment}" Value="">
+                                                                <Setter Property="Text" Value="Det finns inga kommentar att visa"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+
+                                        <Border BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" CornerRadius="0 10 0 10" Margin="-150 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Command="{Binding DeleteCommentCommand}" Style="{StaticResource status}" Background="WhiteSmoke" ToolTip="Ta bort kommentaren">
+                                                    <fa:ImageAwesome Icon="TrashOutline" Height="10" Margin="2 -2 2 0" Foreground="Tomato"  />
+                                                </Button>
+                                                <TextBlock Grid.Column="1" Text="{Binding DateTime, StringFormat=yyyy/dd/MM HH:mm}" FontSize="8" TextAlignment="Center" Margin="5 2 5 0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <DockPanel Grid.Column="1" Visibility="{Binding SelectedComment, Converter={StaticResource NullToVisibilityConverter}}" Margin="-25 0 0 0">
+                            <Border   DockPanel.Dock="Top">
+                                <StackPanel  Orientation="Vertical" >
+                                    <Grid>
+                                        <StackPanel Orientation="Vertical" Margin="5">
+                                            <Button Command="{Binding DeleteCommentCommand}" Style="{StaticResource status}" Background="WhiteSmoke" ToolTip="Ta bort kommentaren">
+                                                <fa:ImageAwesome Icon="TrashOutline" Height="10" Margin="2 -2 2 0" Foreground="DarkOrange"  />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </DockPanel>
+
+                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal"  Margin="240 10 0 10" Visibility="{Binding CommentVisibility}" HorizontalAlignment="Right" >
+                            <Button Click="CommentButton_Click" BorderThickness="0" Background="Transparent" Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource search}" Margin="10 0 0 0" ToolTip="Skriv en kommentar" >
                                 <fa:ImageAwesome Icon="Edit" Foreground="DarkRed" />
                             </Button>
-                            <Button Background="Gold" Style="{StaticResource status}" Width="80" Margin="10 0 0 0" >
-                                <fa:ImageAwesome Icon="Magic" Foreground="DarkRed" />
-                            </Button>
-                            <Button Background="RosyBrown" Style="{StaticResource status}" Width="80" Margin="10 0 5 0" >
-                            <fa:ImageAwesome Icon="TrashOutline" Foreground="DarkRed" />
-                            </Button>
+
+                            <Popup Name="commentpopup" Placement="Relative" VerticalOffset="-115" HorizontalOffset="-238" IsOpen="False" StaysOpen="False" LostFocus="Popup_LostFocus">
+                                <StackPanel Background="White">
+                                    <Border BorderThickness="0" BorderBrush="DarkGray" Width="265">
+                                        <xctk:WatermarkTextBox Watermark="Skriv din komment här" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="tbMultiLine" Height="80" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" Width="265" HorizontalAlignment="Left" Margin="0" BorderThickness="0" />
+                                    </Border>
+
+                                    <Button Command="{Binding AddCommentCommand}" Style="{StaticResource navButton}" Background="WhiteSmoke" Click="SendButton_Click" Width="80" HorizontalAlignment="Right" Margin="0 0 10 2" ToolTip="Skicka kommentaren">
+                                        <fa:ImageAwesome Icon="Send" Height="10" Margin="0 2 0 2" Foreground="DeepSkyBlue"  />
+                                    </Button>
+                                </StackPanel>
+                            </Popup>                            
                         </StackPanel>
 
                     </Grid>

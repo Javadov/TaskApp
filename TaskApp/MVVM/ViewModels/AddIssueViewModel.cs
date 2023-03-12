@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GalaSoft.MvvmLight.Messaging;
+using System;
 using TaskApp.MVVM.Entities;
 using TaskApp.Services;
 using static TaskApp.MVVM.ViewModels.MainViewModel;
@@ -59,6 +60,8 @@ namespace TaskApp.MVVM.ViewModels
             Topic = string.Empty;
             Description = string.Empty;
         }
+
+
 
         [RelayCommand]
         public void Home()

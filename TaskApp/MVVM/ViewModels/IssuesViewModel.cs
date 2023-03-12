@@ -22,6 +22,7 @@ using TaskApp.MVVM.Views;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Runtime.Intrinsics.X86;
+using Microsoft.JSInterop;
 
 namespace TaskApp.MVVM.ViewModels
 {
@@ -83,6 +84,7 @@ namespace TaskApp.MVVM.ViewModels
             Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
         }
 
+        #region Remove Task
         [RelayCommand]
         public async void Remove()
         {
@@ -91,32 +93,14 @@ namespace TaskApp.MVVM.ViewModels
             var issue = SelectedIssue;
 
             if (result == MessageBoxResult.Yes)
-             {
-                await DataService.DeleteAsync(issue);
-             }
-            LoadIssues();
-        }
-
-        #region Hide/Show Comments
-        private bool _isCommentVisible;
- 
-        public Visibility CommentVisibility
-        {
-            get => _isCommentVisible ? Visibility.Visible : Visibility.Collapsed;
-            set
             {
-                _isCommentVisible = value == Visibility.Visible;
-                OnPropertyChanged(nameof(CommentVisibility));
+                await DataService.DeleteAsync(issue);
             }
-        }
-        [RelayCommand]
-        private void ToggleComment()
-        {
-            CommentVisibility = _isCommentVisible ? Visibility.Collapsed : Visibility.Visible;
+            LoadIssues();
         }
         #endregion
 
-
+        #region Change Task Status
         [RelayCommand]
         public async void Select1()
         {
@@ -148,6 +132,60 @@ namespace TaskApp.MVVM.ViewModels
 
             await DataService.UpdateAsync(issue);
             LoadIssues();
+        }
+        #endregion
+
+        #region Hide/Show Comments
+        private bool _isCommentVisible;
+
+        public Visibility CommentVisibility
+        {
+            get => _isCommentVisible ? Visibility.Visible : Visibility.Collapsed;
+            set
+            {
+                _isCommentVisible = value == Visibility.Visible;
+                OnPropertyChanged(nameof(CommentVisibility));
+            }
+        }
+        [RelayCommand]
+        private void ToggleComment()
+        {
+            CommentVisibility = _isCommentVisible ? Visibility.Collapsed : Visibility.Visible;
+        }
+        #endregion
+
+        [ObservableProperty]
+        private string comment = string.Empty;
+
+
+        [ObservableProperty]
+        private Comment selectedComment = null!;
+
+
+        [RelayCommand]
+        private async void AddComment()
+        {
+            var database = new DataService();
+
+            await database.SaveCommentAsync(new CommentEntity
+            {                
+                Comment = Comment,
+                IssueId = SelectedIssue.Id,
+                DateTime = DateTime.Now                
+            });
+        }
+
+        [RelayCommand]
+        private async void DeleteComment()
+        {
+            MessageBoxResult confirm = MessageBox.Show("Är du säker på att ta bort den?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            var comment = selectedComment;
+
+            if (confirm == MessageBoxResult.Yes)
+            {
+                await DataService.DeleteCommentAsync(comment);
+            }
         }
     }
 }

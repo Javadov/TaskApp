@@ -26,6 +26,8 @@ namespace TaskApp.MVVM.Entities
 
         public DateTime DateTime { get; set; }
 
+        public ICollection<CommentEntity> Comments { get; set; }
+
         public int ContactId { get; set; }
         public ContactEntity Contact { get; set; } = null!;
     }

@@ -15,8 +15,7 @@ namespace TaskApp.MVVM.Entities
 
         [Column(TypeName = "nvarchar(max)")]
         public string? Comment { get; set; }
-
-
+        public DateTime DateTime { get; set; }
         public int IssueId { get; set; }
         public IssueEntity Issue { get; set; } = null!;
     }
