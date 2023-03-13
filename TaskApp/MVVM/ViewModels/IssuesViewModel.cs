@@ -29,8 +29,7 @@ namespace TaskApp.MVVM.ViewModels
     internal partial class IssuesViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string pageTitle = "Alla Ärenden";
-
+        private string pageTitle = "Alla ärenden";
 
         [ObservableProperty]
         private ObservableCollection<Issue> issues;
@@ -157,11 +156,10 @@ namespace TaskApp.MVVM.ViewModels
         [ObservableProperty]
         private string comment = string.Empty;
 
-
         [ObservableProperty]
         private Comment selectedComment = null!;
 
-
+        #region Add Comment
         [RelayCommand]
         private async void AddComment()
         {
@@ -173,12 +171,15 @@ namespace TaskApp.MVVM.ViewModels
                 IssueId = SelectedIssue.Id,
                 DateTime = DateTime.Now                
             });
+            LoadPage();
         }
+        #endregion
 
+        #region Delete Comment
         [RelayCommand]
-        private async void DeleteComment()
+        public async void DeleteComment()
         {
-            MessageBoxResult confirm = MessageBox.Show("Är du säker på att ta bort den?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult confirm = MessageBox.Show("Är du säker på att ta bort den här kommentaren?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             var comment = selectedComment;
 
@@ -186,6 +187,8 @@ namespace TaskApp.MVVM.ViewModels
             {
                 await DataService.DeleteCommentAsync(comment);
             }
+            LoadPage();
         }
+        #endregion
     }
 }

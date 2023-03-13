@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="TASK MANAGER" FontFamily="{StaticResource Square}" FontSize="30" Foreground="Goldenrod" FontWeight="Bold" Margin="140 100 140 0" TextAlignment="Center"/>
+        <TextBlock Text="TASK MANAGER" FontFamily="Candara" FontSize="40" Foreground="Goldenrod" FontWeight="Bold" Margin="140 100 140 0" TextAlignment="Center"/>
 
         <Button Command="{Binding ToAddIssueCommand}" Background="AntiqueWhite" Width="80" Height="50" Margin="250 0 0 0" HorizontalAlignment="Left" >
             <fa:ImageAwesome Icon="Pencil" Margin='10'/>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +16,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TaskApp.MVVM.Models;
-
-
+using TaskApp.MVVM.ViewModels;
+using TaskApp.Services;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using static TaskApp.MVVM.ViewModels.MainViewModel;
 
 namespace TaskApp.MVVM.Views
 {
@@ -62,5 +66,21 @@ namespace TaskApp.MVVM.Views
         {
             commentpopup.IsOpen = false;
         }
+
+        private void DeleteComment_Click(object sender, RoutedEventArgs e)
+        {
+            var issuesViewModel = (IssuesViewModel)DataContext;
+            issuesViewModel.DeleteComment();
+        }
+
+        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // Get the corresponding item for the ListViewItem
+            var item = ((FrameworkElement)sender).DataContext;
+
+            // Set the selected item of the ListView
+            listView.SelectedItem = item;
+        }
+
     }
 }

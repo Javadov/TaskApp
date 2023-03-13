@@ -39,7 +39,7 @@
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" CornerRadius="20 0 0 20" Width="250" Height="40" HorizontalAlignment="Right" Margin="5 5 0 5">
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 3 20 0" />
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontFamily="Candara" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 5 20 0" />
         </Border>
 
         <xctk:WatermarkTextBox Watermark="Förnamn" Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBox"  Text="{Binding Firstname}" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10"/>

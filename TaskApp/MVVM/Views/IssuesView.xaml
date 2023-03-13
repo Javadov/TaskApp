@@ -8,7 +8,8 @@
              xmlns:simpleXamlContent="clr-namespace:TaskApp.Services"                         
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
              xmlns:views="clr-namespace:TaskApp.MVVM.Views"
-             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF" 
+             xmlns:i="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic"
              d:DataContext="{d:DesignInstance Type=viewmodels:IssuesViewModel}"
              
              mc:Ignorable="d" 
@@ -19,14 +20,12 @@
         <simpleXamlContent:ListViewItemToMarginConverter x:Key="ListViewItemToMarginConverter"/>
     </UserControl.Resources>
 
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
             <Button Command="{Binding HomeCommand}" Style="{StaticResource navButton}" Background="AntiqueWhite" Width="50" Height="50" Margin="0 5 5 5" >
@@ -41,7 +40,7 @@
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1" Background="GhostWhite" CornerRadius="20 0 0 20" Width="250" Height="40" HorizontalAlignment="Right" Margin="5 5 0 5">
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 3 20 0" />
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontFamily="Candara" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 5 20 0" />
         </Border>
         
         <Grid Grid.Row="1" Grid.Column="1" Width="Auto">
@@ -58,7 +57,7 @@
             <TextBlock Grid.Column="3" Text="Status" />
         </Grid>
 
-        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Issues}" SelectionMode="Single" SelectedItem="{Binding SelectedIssue}">
+        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Issues}" SelectionMode="Single" SelectedItem="{Binding SelectedIssue}">            
             <ListView.ItemTemplate>                
                 <DataTemplate>                    
                     <Grid>                        
@@ -163,7 +162,6 @@
                             </StackPanel>
                         </Border>
 
-
                         <StackPanel Grid.Row="6" Orientation="Horizontal"  Margin="5 15 0 -1" HorizontalAlignment="Right" >
                             <Border BorderBrush="Black" BorderThickness="1" Background="White" CornerRadius="10 0 0 0" Width="80" Height="25">
                                 <Button Content="{Binding SelectedIssue.Status, Converter={StaticResource StatusToTextConverter}}" Click="Button_Click" BorderThickness="0" Background="Transparent" Template="{StaticResource NoMouseOverButtonTemplate}" ToolTip="Tryck för att byta status">
@@ -188,7 +186,6 @@
                                 </Button>
                             </Border>
                             <Popup Name="popup" Placement="Right" IsOpen="False" StaysOpen="False" LostFocus="Popup_LostFocus">
-                                <!-- Add the contents of your dropdown here -->
                                 <StackPanel Background="White">
                                     <Button Command="{Binding Select1Command}" Style="{StaticResource status}" Click="CloseButton_Click">
                                         <fa:ImageAwesome Icon="HourglassStart" Height="20" Foreground="Gray"/>
@@ -224,10 +221,8 @@
                                 <fa:ImageAwesome Icon="Comments" Foreground="YellowGreen" />
                             </Button>
                         </StackPanel>
-
-
-
                     </Grid>
+                    
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -240,37 +235,23 @@
                             <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Visibility="{Binding CommentVisibility}">
-                            <Border BorderBrush="Black"  Background="LightBlue" BorderThickness="1" CornerRadius="10 10 0 10">
-                                <TextBlock Text="Det finns inga kommentar att visa" Margin="5 10 5 5" Width="254" TextWrapping="Wrap" Height="auto" HorizontalAlignment="Left" >
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
-
-
-                        <ListView Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ItemsSource="{Binding SelectedIssue.Comments}" SelectionMode="Single" SelectedItem="{Binding SelectedComment}" Visibility="{Binding CommentVisibility}" Width="280" BorderThickness="0" BorderBrush="Transparent" HorizontalAlignment="Right">
+                        <ListView x:Name="listView" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" ItemsSource="{Binding SelectedIssue.Comments}" SelectionMode="Single" SelectedItem="{Binding SelectedComment}" Visibility="{Binding CommentVisibility}" Width="280" BorderThickness="0" BorderBrush="Transparent" HorizontalAlignment="Right">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="3 0 0 3"/>
+                                    <Setter Property="Background" Value="White"/>
+                                    <EventSetter Event="MouseEnter" Handler="ListViewItem_MouseEnter"/>
                                 </Style>
                             </ListView.ItemContainerStyle>
 
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+
                                         <Border BorderBrush="Black"  Background="LightBlue" BorderThickness="1" CornerRadius="10 10 0 10">
-                                            <TextBlock Margin="5 15 5 5" Width="244" TextWrapping="Wrap" Height="auto" HorizontalAlignment="Left">
+                                            <TextBlock Margin="5 15 5 5" Width="235" TextWrapping="Wrap" Height="auto" HorizontalAlignment="Left">
                                                 <TextBlock.Style>
                                                     <Style TargetType="{x:Type TextBlock}">
                                                         <Setter Property="Text" Value="{Binding _Comment}"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding _Comment}" Value="">
-                                                                <Setter Property="Text" Value="Det finns inga kommentar att visa"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
                                             </TextBlock>
@@ -278,7 +259,7 @@
 
                                         <Border BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" CornerRadius="0 10 0 10" Margin="-150 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Top">
                                             <StackPanel Orientation="Horizontal">
-                                                <Button Command="{Binding DeleteCommentCommand}" Style="{StaticResource status}" Background="WhiteSmoke" ToolTip="Ta bort kommentaren">
+                                                <Button Click="DeleteComment_Click" CommandParameter="{Binding SelectedComment}" Style="{StaticResource status}" Background="WhiteSmoke" ToolTip="Ta bort kommentaren">
                                                     <fa:ImageAwesome Icon="TrashOutline" Height="10" Margin="2 -2 2 0" Foreground="Tomato"  />
                                                 </Button>
                                                 <TextBlock Grid.Column="1" Text="{Binding DateTime, StringFormat=yyyy/dd/MM HH:mm}" FontSize="8" TextAlignment="Center" Margin="5 2 5 0"/>
@@ -289,21 +270,7 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
-                        <DockPanel Grid.Column="1" Visibility="{Binding SelectedComment, Converter={StaticResource NullToVisibilityConverter}}" Margin="-25 0 0 0">
-                            <Border   DockPanel.Dock="Top">
-                                <StackPanel  Orientation="Vertical" >
-                                    <Grid>
-                                        <StackPanel Orientation="Vertical" Margin="5">
-                                            <Button Command="{Binding DeleteCommentCommand}" Style="{StaticResource status}" Background="WhiteSmoke" ToolTip="Ta bort kommentaren">
-                                                <fa:ImageAwesome Icon="TrashOutline" Height="10" Margin="2 -2 2 0" Foreground="DarkOrange"  />
-                                            </Button>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-                        </DockPanel>
-
-                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal"  Margin="240 10 0 10" Visibility="{Binding CommentVisibility}" HorizontalAlignment="Right" >
+                        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal"  Margin="240 10 0 10" Visibility="{Binding CommentVisibility}" HorizontalAlignment="Right" >
                             <Button Click="CommentButton_Click" BorderThickness="0" Background="Transparent" Template="{StaticResource NoMouseOverButtonTemplate}" Style="{StaticResource search}" Margin="10 0 0 0" ToolTip="Skriv en kommentar" >
                                 <fa:ImageAwesome Icon="Edit" Foreground="DarkRed" />
                             </Button>
@@ -320,13 +287,9 @@
                                 </StackPanel>
                             </Popup>                            
                         </StackPanel>
-
-                    </Grid>
-                    
+                    </Grid>                    
                 </StackPanel>
             </Border>
         </DockPanel>
     </Grid>
-
-
 </UserControl>

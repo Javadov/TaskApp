@@ -12,7 +12,7 @@ namespace TaskApp.MVVM.ViewModels
     {
 
         [ObservableProperty]
-        private string pageTitle = "Skapa Ärende";
+        private string pageTitle = "Skapa ärende";
 
         [ObservableProperty]
         private string firstname = string.Empty;

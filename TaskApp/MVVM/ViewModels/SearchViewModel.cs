@@ -17,7 +17,7 @@ namespace TaskApp.MVVM.ViewModels
     internal partial class SearchViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string pageTitle = "Sök Ärende";
+        private string pageTitle = "Sök ärende";
 
 
         [ObservableProperty]
