@@ -12,7 +12,7 @@ using TaskApp.Contexts;
 namespace TaskApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230311220719_InitDatabase")]
+    [Migration("20230314202556_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -113,6 +113,22 @@ namespace TaskApp.Migrations
                     b.HasIndex("ContactId");
 
                     b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("TaskApp.MVVM.Entities.PhoneNumberEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("char(13)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhoneNumbers");
                 });
 
             modelBuilder.Entity("TaskApp.MVVM.Entities.CommentEntity", b =>

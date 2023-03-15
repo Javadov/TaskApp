@@ -42,17 +42,14 @@
             <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding PageTitle}" FontFamily="Candara" FontSize="22" FontWeight="ExtraBlack" HorizontalAlignment="Right" Margin="0 5 20 0" />
         </Border>
 
-        <xctk:WatermarkTextBox Watermark="Förnamn" Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBox"  Text="{Binding Firstname}" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10"/>
-        <xctk:WatermarkTextBox Watermark="Efternamn" Grid.Row="1" Grid.Column="1" x:Name="LastNameTextBox" Text="{Binding Lastname}" Width="158" HorizontalAlignment="Right" Margin="0 0 425 10"/>
-        <xctk:WatermarkTextBox Watermark="E-postadress" Grid.Row="3" Grid.Column="1" x:Name="EmailTextBox" Text="{Binding Email}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
+
+        <xctk:WatermarkTextBox Watermark="Förnamn" Grid.Row="1" Grid.Column="1" x:Name="FirstNameTextBox" Text="{Binding Firstname}" TextChanged="myTextBox_TextChanged" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10" />
+        <xctk:WatermarkTextBox Watermark="Efternamn" Grid.Row="1" Grid.Column="1" x:Name="LastNameTextBox" Text="{Binding Lastname}" TextChanged="myTextBox_TextChanged" Width="158" HorizontalAlignment="Right" Margin="0 0 425 10"/>
+        <xctk:WatermarkTextBox Watermark="E-postadress" Grid.Row="3" Grid.Column="1" x:Name="EmailTextBox" Text="{Binding Email}" TextChanged="myTextBox_TextChanged" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
         <xctk:WatermarkTextBox Watermark="Telefonnummer" Grid.Row="4" Grid.Column="1" x:Name="PhoneTextBox" Text="{Binding Phonenumber}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
-        <xctk:WatermarkTextBox Watermark="Ämne" Grid.Row="5" Grid.Column="1" x:Name="Topic" Text="{Binding Topic}" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
-        <xctk:WatermarkTextBox Watermark="Beskriva ärende" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="tbMultiLine" Height="120" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 10">
-            <TextBox.InputBindings>
-                <KeyBinding Key="Return" Command="{Binding AddCommand}" />
-            </TextBox.InputBindings>
-        </xctk:WatermarkTextBox>
-    
+        <xctk:WatermarkTextBox Watermark="Ämne" Grid.Row="5" Grid.Column="1" x:Name="TopicTextBox" Text="{Binding Topic}" TextChanged="myTextBox_TextChanged" Width="320" HorizontalAlignment="Left" Margin="0 0 0 10"/>
+        <xctk:WatermarkTextBox Watermark="Beskriva ärende" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" x:Name="DescriptionTextBox" Height="120" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" TextChanged="myTextBox_TextChanged" Margin="0 0 0 10" />
+
         <Button Grid.Row="8" Grid.Column="1" Command="{Binding AddCommand}" Style="{StaticResource navButton}" Background="WhiteSmoke" Width="120" Height="30" HorizontalAlignment="Right" Padding="5" >
             <fa:ImageAwesome Icon="Send" Foreground="Goldenrod"/>
         </Button>

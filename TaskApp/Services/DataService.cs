@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using GalaSoft.MvvmLight.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 using TaskApp.Contexts;
 using TaskApp.MVVM.Entities;
@@ -22,22 +24,64 @@ namespace TaskApp.Services
         #region Save Issue
         public async Task SaveIssueAsync(IssueEntity issueEntity)
         {
-            context.Issues.Add(issueEntity);
-            await context.SaveChangesAsync();
+
+            if (issueEntity == null || string.IsNullOrEmpty(issueEntity.Topic) || string.IsNullOrEmpty(issueEntity.Description))
+            {
+                MessageBox.Show("Fyll i alla obligatoriska fält.");
+                return;
+            }
+            else
+            {
+
+                context.Issues.Add(issueEntity);
+                await context.SaveChangesAsync();
+            }
         }
         #endregion
 
         #region Check Contact
         public async Task<int> IssuesAsync(ContactEntity contactEntity)
         {
-            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Email == contactEntity.Email || x.PhoneNumber == contactEntity.PhoneNumber);
-
-            if (contact != null)
-                return contact.Id;
+            if (contactEntity == null || string.IsNullOrEmpty(contactEntity.FirstName) || string.IsNullOrEmpty(contactEntity.LastName) || string.IsNullOrEmpty(contactEntity.Email))
+            {
+                MessageBox.Show("Fyll i alla obligatoriska fält.");
+                return -1;
+            }
             else
-                context.Contacts.Add(contactEntity);
+            {
+                var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Email == contactEntity.Email);
+
+                if (contact != null)
+                    return contact.Id;
+                else
+                    context.Contacts.Add(contactEntity);
+
                 await context.SaveChangesAsync();
                 return contactEntity.Id;
+            }
+        }
+        #endregion
+
+
+        #region Save PhoneNumber
+        public async Task<int?> PhoneNumberAsync(PhoneNumberEntity phoneNumberEntity)
+        {
+            if (phoneNumberEntity.PhoneNumber == null)
+            {
+                return null;
+            }
+
+            else
+            {
+                var phoneNumber = await context.PhoneNumbers.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumberEntity.PhoneNumber);
+
+                if (phoneNumber != null)
+                    return phoneNumber.Id;
+                else
+                    context.PhoneNumbers.Add(phoneNumberEntity);
+                await context.SaveChangesAsync();
+                return phoneNumberEntity.Id;
+            }
         }
         #endregion
 
@@ -85,7 +129,7 @@ namespace TaskApp.Services
         }
         #endregion
 
-        #region Get Specific Issues
+        #region Get Specific Issue
         public static async Task<IEnumerable<Issue>> GetAsync(string email)
         {
             var selectedIssues = await context.Issues

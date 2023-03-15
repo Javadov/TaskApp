@@ -25,7 +25,7 @@ namespace TaskApp.Contexts
         public DbSet<ContactEntity> Contacts { get; set; }
         public DbSet<IssueEntity> Issues { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
-
+        public DbSet<PhoneNumberEntity> PhoneNumbers { get; set; }
         #endregion
     }
 }

@@ -129,5 +129,17 @@ namespace TaskApp.Services
         }
     }
 
+    public class RequiredValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            if (string.IsNullOrWhiteSpace((string)value))
+            {
+                return new ValidationResult(false, "This field is required.");
+            }
+
+            return ValidationResult.ValidResult;
+        }
+    }
 
 }

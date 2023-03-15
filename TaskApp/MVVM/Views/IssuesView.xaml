@@ -201,8 +201,14 @@
                         </StackPanel>                        
 
                         <Border Grid.Row="7" Grid.RowSpan="2" BorderBrush="DarkGoldenrod" BorderThickness="1"  Margin="5 0 0 0" CornerRadius="0 0 10 0">
-                            <StackPanel Grid.Row="7"  Orientation="Horizontal" >
-                                <TextBlock Text="{Binding SelectedIssue.Description}" Margin="5 5 0 0"/>
+                            <StackPanel Grid.Row="7" Grid.RowSpan="2"  Orientation="Horizontal" >
+                                <TextBlock Margin="5" TextWrapping="Wrap" Width="450" Height="auto">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Text" Value="{Binding SelectedIssue.Description}"/>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                         </Border>
                         <StackPanel Grid.Row="8" Orientation="Horizontal"  Margin="5" HorizontalAlignment="Right" >

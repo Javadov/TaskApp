@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using System.Globalization;
+using System.Windows.Controls;
 using TaskApp.MVVM.Entities;
 using TaskApp.Services;
 using static TaskApp.MVVM.ViewModels.MainViewModel;
@@ -15,7 +17,7 @@ namespace TaskApp.MVVM.ViewModels
         private string pageTitle = "Skapa ärende";
 
         [ObservableProperty]
-        private string firstname = string.Empty;
+        private string firstname = null!;
 
         [ObservableProperty]
         private string lastname = string.Empty;
@@ -24,13 +26,13 @@ namespace TaskApp.MVVM.ViewModels
         private string email = string.Empty;
 
         [ObservableProperty]
-        private string phonenumber = string.Empty;
+        private string phonenumber = null!;
 
         [ObservableProperty]
-        private string topic = string.Empty;
+        private string topic = null!;
 
         [ObservableProperty]
-        private string description = string.Empty;
+        private string description = null!;
 
 
         [RelayCommand]
@@ -49,9 +51,9 @@ namespace TaskApp.MVVM.ViewModels
                     FirstName = Firstname,
                     LastName = Lastname,
                     Email = Email,
-                    PhoneNumber = Phonenumber,
+                    PhoneNumber = Phonenumber
                 }),
-            });
+            });;
 
             Firstname = string.Empty;
             Lastname = string.Empty;
@@ -60,8 +62,6 @@ namespace TaskApp.MVVM.ViewModels
             Topic = string.Empty;
             Description = string.Empty;
         }
-
-
 
         [RelayCommand]
         public void Home()
@@ -86,5 +86,6 @@ namespace TaskApp.MVVM.ViewModels
         {
             Messenger.Default.Send(new ChangeViewModelMessage(new SearchViewModel()));
         }
+
     }
 }

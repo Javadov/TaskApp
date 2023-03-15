@@ -112,6 +112,22 @@ namespace TaskApp.Migrations
                     b.ToTable("Issues");
                 });
 
+            modelBuilder.Entity("TaskApp.MVVM.Entities.PhoneNumberEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("char(13)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhoneNumbers");
+                });
+
             modelBuilder.Entity("TaskApp.MVVM.Entities.CommentEntity", b =>
                 {
                     b.HasOne("TaskApp.MVVM.Entities.IssueEntity", "Issue")

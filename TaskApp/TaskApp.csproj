@@ -40,10 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="FontAwesome.WPF">
       <HintPath>..\..\..\..\.nuget\packages\fontawesome.wpf\4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>

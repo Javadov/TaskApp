@@ -28,6 +28,19 @@ namespace TaskApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PhoneNumbers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PhoneNumber = table.Column<string>(type: "char(13)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneNumbers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Issues",
                 columns: table => new
                 {
@@ -93,6 +106,9 @@ namespace TaskApp.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "PhoneNumbers");
 
             migrationBuilder.DropTable(
                 name: "Issues");
