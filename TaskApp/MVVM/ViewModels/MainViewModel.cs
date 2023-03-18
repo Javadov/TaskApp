@@ -15,18 +15,6 @@ namespace TaskApp.MVVM.ViewModels
         [ObservableProperty]
         private ObservableObject currentViewModel;
 
-        [RelayCommand]
-        private void GoToHome() => CurrentViewModel = new HomeViewModel();
-
-        [RelayCommand]
-        private void GoToAddIssue() => CurrentViewModel = new AddIssueViewModel();
-
-        [RelayCommand]
-        private void GoToIssues() => CurrentViewModel = new IssuesViewModel();
-
-        [RelayCommand]
-        private void GoToSearch() => CurrentViewModel = new SearchViewModel();
-
         public class ChangeViewModelMessage
         {
             public object NewViewModel { get; }

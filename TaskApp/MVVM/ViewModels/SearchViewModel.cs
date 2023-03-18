@@ -11,6 +11,7 @@ using static TaskApp.MVVM.ViewModels.MainViewModel;
 using System.Windows;
 using TaskApp.MVVM.Models;
 using TaskApp.Services;
+using TaskApp.MVVM.Entities;
 
 namespace TaskApp.MVVM.ViewModels
 {
@@ -92,6 +93,7 @@ namespace TaskApp.MVVM.ViewModels
             Messenger.Default.Send(new ChangeViewModelMessage(new AddIssueViewModel()));
         }
 
+        #region Remove Task
         [RelayCommand]
         public async void Remove()
         {
@@ -105,6 +107,7 @@ namespace TaskApp.MVVM.ViewModels
             }
             LoadPage();
         }
+        #endregion
 
         #region Hide/Show Comments
         private bool _isCommentVisible;
@@ -125,6 +128,7 @@ namespace TaskApp.MVVM.ViewModels
         }
         #endregion
 
+        #region Change Task Status
         [RelayCommand]
         public async void Select1()
         {
@@ -157,5 +161,44 @@ namespace TaskApp.MVVM.ViewModels
             await DataService.UpdateAsync(issue);
             LoadPage();
         }
+        #endregion
+
+        [ObservableProperty]
+        private string comment = string.Empty;
+
+        [ObservableProperty]
+        private Comment selectedComment = null!;
+
+        #region Add Comment
+        [RelayCommand]
+        private async void AddComment()
+        {
+            var database = new DataService();
+
+            await database.SaveCommentAsync(new CommentEntity
+            {
+                Comment = Comment,
+                IssueId = SelectedIssue.Id,
+                DateTime = DateTime.Now
+            });
+            LoadPage();
+        }
+        #endregion
+
+        #region Delete Comment
+        [RelayCommand]
+        public async void DeleteComment()
+        {
+            MessageBoxResult confirm = MessageBox.Show("Är du säker på att ta bort den här kommentaren?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            var comment = selectedComment;
+
+            if (confirm == MessageBoxResult.Yes)
+            {
+                await DataService.DeleteCommentAsync(comment);
+            }
+            LoadPage();
+        }
+        #endregion
     }
 }

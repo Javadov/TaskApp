@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskApp.MVVM.ViewModels;
 
 namespace TaskApp.MVVM.Views
 {
@@ -46,6 +47,30 @@ namespace TaskApp.MVVM.Views
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             popup.IsOpen = false;
+        }
+        private void CommentButton_Click(object sender, RoutedEventArgs e)
+        {
+            commentpopup.IsOpen = true;
+        }
+
+        private void SendButton_Click(object sender, RoutedEventArgs e)
+        {
+            commentpopup.IsOpen = false;
+        }
+
+        private void DeleteComment_Click(object sender, RoutedEventArgs e)
+        {
+            var issuesViewModel = (IssuesViewModel)DataContext;
+            issuesViewModel.DeleteComment();
+        }
+
+        private void ListViewItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // Get the corresponding item for the ListViewItem
+            var item = ((FrameworkElement)sender).DataContext;
+
+            // Set the selected item of the ListView
+            listView.SelectedItem = item;
         }
     }
 }

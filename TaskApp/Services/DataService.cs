@@ -32,7 +32,6 @@ namespace TaskApp.Services
             }
             else
             {
-
                 context.Issues.Add(issueEntity);
                 await context.SaveChangesAsync();
             }
